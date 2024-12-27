@@ -95,7 +95,6 @@ function getFact() {
 
 function getWord() {
     const link = corsEnabler + 'https://neueswort.de/fremdwoerter-liste/';
-    const wo = window.open();
 
     loader.classList.add('open');
 
@@ -112,7 +111,6 @@ function getWord() {
 
         loader.classList.remove('open');
 
-        //window.open(href);
-        wo.location = href;
+        window.location.assign(href)
     });
 }
