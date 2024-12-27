@@ -2,6 +2,9 @@ const corsEnabler = 'https://cors.janniksohn.dev/';
 // const corsEnabler = 'http://127.0.0.1:8080/';
 
 const loader = document.querySelector('#loader');
+const modal = document.querySelector('#modal');
+const modalContent = modal.querySelector('div');
+modal.querySelector('button').addEventListener('click', _ => modal.classList.remove('open'));
 document.querySelector('#fact-btn').addEventListener('click', getFact)
 document.querySelector('#word-btn').addEventListener('click', getWord)
 
@@ -64,9 +67,28 @@ function getFact() {
                     return;
 
                 const randomIndex = Math.floor(Math.random() * info.length);
-                console.log(info[randomIndex])
+
+                Array.from(modalContent.children).forEach(child => {
+                    if (child instanceof HTMLButtonElement)
+                        return;
+
+                    child.remove();
+                });
+
+                const items = [];
+
+                Object.entries(info[randomIndex]).forEach(([key, value]) => {
+                    const para = document.createElement('p');
+                    para.innerHTML = `<b>${key}:</b> ${value}`;
+                    items.push(para);
+                });
+
+                items.reverse().forEach(item => {
+                    modalContent.prepend(item);
+                });
 
                 loader.classList.remove('open');
+                modal.classList.add('open');
             });
         });
 }

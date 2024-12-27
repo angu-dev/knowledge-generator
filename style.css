@@ -37,6 +37,7 @@ button:hover {
     cursor: pointer;
 }
 
+#modal,
 #loader {
     position: fixed;
     inset: 0;
@@ -45,10 +46,12 @@ button:hover {
     align-items: center;
 }
 
+#modal:not(.open),
 #loader:not(.open) {
     display: none;
 }
 
+#modal.open,
 #loader.open {
     display: flex;
 }
@@ -65,4 +68,35 @@ button:hover {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+#modal {
+    position: fixed;
+    inset: 0;
+}
+
+#modal div {
+    padding: 1rem;
+    max-width: 80vw;
+    max-height: 80vh;
+    min-width: 15rem;
+    background-color: #222;
+    border: 1px solid #fff;
+    border-radius: 1rem;
+}
+
+#modal div p,
+#modal div p b {
+    font-size: .8rem;
+    color: #fff;
+    margin-bottom: .5rem;
+}
+
+#modal div p::first-letter {
+    text-transform: uppercase;
+}
+
+#modal div button {
+    width: 100%;
+    margin-top: .5rem;
 }
