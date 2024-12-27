@@ -11,8 +11,10 @@ html, body {
 
 body {
     display: flex;
-    justify-content: center;
     align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 100dvh;
     gap: 2rem;
     background-color: #222;
 }
@@ -25,6 +27,7 @@ button {
     border: 1px solid #fff;
     background-color: transparent;
     color: #fff;
+    min-width: 10rem;
 }
 
 button:hover {

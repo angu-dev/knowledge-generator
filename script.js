@@ -1,7 +1,9 @@
-// const corsEnabler = 'https://cors.janniksohn.dev/';
-const corsEnabler = 'http://127.0.0.1:8080/';
-const loader = document.querySelector('#loader');
+const corsEnabler = 'https://cors.janniksohn.dev/';
+// const corsEnabler = 'http://127.0.0.1:8080/';
 
+const loader = document.querySelector('#loader');
+document.querySelector('#fact-btn').addEventListener('click', getFact)
+document.querySelector('#word-btn').addEventListener('click', getWord)
 
 function getFact() {
     const sitemap = corsEnabler + 'https://www.taschenhirn.de/page-sitemap.xml'
@@ -90,6 +92,3 @@ function getWord() {
         window.open(href);
     });
 }
-
-document.querySelector('#fact-btn').addEventListener('click', getFact)
-document.querySelector('#word-btn').addEventListener('click', getWord)
