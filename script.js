@@ -8,7 +8,7 @@ modal.querySelector('button').addEventListener('click', _ => modal.classList.rem
 document.querySelector('#fact-btn').addEventListener('click', getFact)
 document.querySelector('#word-btn').addEventListener('click', getWord)
 
-document.body.height = window.innerHeight;
+document.body.style.height = window.innerHeight;
 
 function getFact() {
     const sitemap = corsEnabler + 'https://www.taschenhirn.de/page-sitemap.xml'
