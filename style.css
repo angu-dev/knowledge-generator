@@ -18,6 +18,16 @@ body {
     background-color: #222;
 }
 
+div.area {
+    display: flex;
+    gap: 1rem;
+}
+
+div.area button:has(img) {
+    min-width: unset;
+    padding: 1rem;
+}
+
 button {
     font-size: 1rem;
     padding: 1rem 2rem;
@@ -29,11 +39,43 @@ button {
     min-width: 10rem;
 }
 
+button[disabled] {
+    color: gray;
+    border-color: gray;
+    pointer-events: none;
+}
+
+button[disabled] img {
+    filter: invert(.4);
+}
+
+button img {
+    height: 1rem;
+    width: 1rem;
+    scale: 1.75;
+    filter: invert(1);
+}
+
 button:hover {
     border-color: #222;
     background-color: #fff;
     color: #222;
     cursor: pointer;
+}
+
+button:hover img {
+    filter: none;
+}
+
+button#remove-repeat {
+    color: gray;
+    padding: 0;
+    border: unset;
+    font-size: .5rem;
+    position: fixed;
+    bottom: .5rem;
+    right: .5rem;
+    min-width: unset;
 }
 
 #modal,

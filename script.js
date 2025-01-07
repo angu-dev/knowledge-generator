@@ -4,11 +4,36 @@ const corsEnabler = 'https://cors.janniksohn.dev/';
 const loader = document.querySelector('#loader');
 const modal = document.querySelector('#modal');
 const modalContent = modal.querySelector('div');
+const factRepeat = document.querySelector('#fact-repeat');
+const wordRepeat = document.querySelector('#word-repeat');
 modal.querySelector('button').addEventListener('click', _ => modal.classList.remove('open'));
-document.querySelector('#fact-btn').addEventListener('click', getFact)
-document.querySelector('#word-btn').addEventListener('click', getWord)
+document.querySelector('#fact-btn').addEventListener('click', getFact);
+document.querySelector('#word-btn').addEventListener('click', getWord);
+document.querySelector('#remove-repeat').addEventListener('click', clearCaches);
+factRepeat.addEventListener('click', getKnownFact);
+wordRepeat.addEventListener('click', getKnownWord);
 
 document.body.style.height = window.innerHeight;
+
+let words = localStorage.getItem('words');
+if (words === null) {
+    words = localStorage.setItem('words', JSON.stringify([]));
+}
+
+let facts = localStorage.getItem('facts');
+if (facts === null) {
+    facts = localStorage.setItem('facts', JSON.stringify([]));
+}
+
+checkRepeats();
+
+function checkRepeats() {
+    let words = localStorage.getItem('words');
+    wordRepeat.disabled = JSON.parse(words).length === 0;
+
+    let facts = localStorage.getItem('facts');
+    factRepeat.disabled = JSON.parse(facts).length === 0;
+}
 
 function getFact() {
     const sitemap = corsEnabler + 'https://www.taschenhirn.de/page-sitemap.xml'
@@ -79,6 +104,12 @@ function getFact() {
 
                 const items = [];
 
+                const facts = JSON.parse(localStorage.getItem('facts'));
+                facts.push(info[randomIndex]);
+                localStorage.setItem('facts', JSON.stringify(facts));
+
+                checkRepeats();
+
                 Object.entries(info[randomIndex]).forEach(([key, value]) => {
                     const para = document.createElement('p');
                     para.innerHTML = `<b>${key}:</b> ${value}`;
@@ -113,6 +144,50 @@ function getWord() {
 
         loader.classList.remove('open');
 
-        window.location.assign(href)
+        const words = JSON.parse(localStorage.getItem('words'));
+        words.push(href);
+        localStorage.setItem('words', JSON.stringify(words));
+        checkRepeats();
+
+        window.location.assign(href);
     });
+}
+
+function getKnownFact() {
+    const facts = JSON.parse(localStorage.getItem('facts'));
+    const randomIndex = Math.floor(Math.random() * facts.length);
+
+    Array.from(modalContent.children).forEach(child => {
+        if (child instanceof HTMLButtonElement)
+            return;
+
+        child.remove();
+    });
+
+    const items = [];
+
+    Object.entries(facts[randomIndex]).forEach(([key, value]) => {
+        const para = document.createElement('p');
+        para.innerHTML = `<b>${key}:</b> ${value}`;
+        items.push(para);
+    });
+
+    items.reverse().forEach(item => {
+        modalContent.prepend(item);
+    });
+
+    loader.classList.remove('open');
+    modal.classList.add('open');
+}
+
+function getKnownWord() {
+    const words = JSON.parse(localStorage.getItem('words'));
+    const randomIndex = Math.floor(Math.random() * words.length);
+    window.location.assign(words[randomIndex]);
+}
+
+function clearCaches() {
+    localStorage.setItem('facts', JSON.stringify([]));
+    localStorage.setItem('words', JSON.stringify([]));
+    checkRepeats();
 }
